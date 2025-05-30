@@ -1,66 +1,81 @@
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, BookOpen } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Plus, BookOpen, Search } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 
 const publicationsData = [
   {
     id: 1,
+    dateOfApplication: '2025-05-15',
     facultyName: 'Dr. Sarah Johnson',
-    degree: 'Ph.D.',
-    sex: 'Female',
-    researchTitle: 'Machine Learning Applications in Educational Assessment',
-    ownership: 'Author',
-    datePublished: '2025-05-15',
-    journalPublished: 'International Journal of Educational Technology',
-    subsidy: 20000
+    titleOfPaper: 'Machine Learning Applications in Educational Assessment',
+    department: 'Computer Science',
+    researchSubsidy: 20000,
+    status: 'Approved',
+    scope: 'International'
   },
   {
     id: 2,
+    dateOfApplication: '2025-05-10',
     facultyName: 'Prof. Michael Chen',
-    degree: 'Ph.D.',
-    sex: 'Male',
-    researchTitle: 'Sustainable Energy Solutions for Rural Communities',
-    ownership: 'Co-Author',
-    datePublished: '2025-05-10',
-    journalPublished: 'Global Energy Conference 2025',
-    subsidy: 15500
+    titleOfPaper: 'Sustainable Energy Solutions for Rural Communities',
+    department: 'Engineering',
+    researchSubsidy: 15500,
+    status: 'Under Review',
+    scope: 'Local'
   },
   {
     id: 3,
+    dateOfApplication: '2025-05-08',
     facultyName: 'Dr. Emily Rodriguez',
-    degree: 'Ph.D.',
-    sex: 'Female',
-    researchTitle: 'Impact of Social Media on Student Mental Health',
-    ownership: 'Author',
-    datePublished: '2025-05-08',
-    journalPublished: 'National Psychology Review',
-    subsidy: 9300
+    titleOfPaper: 'Impact of Social Media on Student Mental Health',
+    department: 'Psychology',
+    researchSubsidy: 9300,
+    status: 'Approved',
+    scope: 'International'
   },
   {
     id: 4,
+    dateOfApplication: '2025-05-05',
     facultyName: 'Dr. James Wilson',
-    degree: 'Ph.D.',
-    sex: 'Male',
-    researchTitle: 'Climate Change Effects on Agricultural Productivity',
-    ownership: 'Co-Author',
-    datePublished: '2025-05-05',
-    journalPublished: 'Environmental Science Handbook',
-    subsidy: 12750
+    titleOfPaper: 'Climate Change Effects on Agricultural Productivity',
+    department: 'Environmental Science',
+    researchSubsidy: 12750,
+    status: 'Rejected',
+    scope: 'Local'
   }
 ];
 
 const DataCollection = () => {
-  const getOwnershipColor = (ownership: string) => {
-    switch (ownership) {
-      case 'Author': return 'bg-blue-100 text-blue-800';
-      case 'Co-Author': return 'bg-green-100 text-green-800';
-      case 'Editor': return 'bg-purple-100 text-purple-800';
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Approved': return 'bg-green-100 text-green-800';
+      case 'Under Review': return 'bg-yellow-100 text-yellow-800';
+      case 'Rejected': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+  const getScopeColor = (scope: string) => {
+    switch (scope) {
+      case 'International': return 'bg-blue-100 text-blue-800';
+      case 'Local': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const filteredData = publicationsData.filter(item =>
+    item.facultyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.titleOfPaper.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.status.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -84,42 +99,51 @@ const DataCollection = () => {
               <BookOpen className="h-5 w-5 mr-2" />
               Publications Overview
             </CardTitle>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                placeholder="Search publications..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-slate-200">
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Faculty Name</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Degree</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Sex</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Research Title</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Ownership</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Date Published</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Journal Published</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Subsidy</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Date of Application</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Name of Faculty/Research Worker</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Title of Paper</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Department</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Research Subsidy</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Status</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Local/International</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {publicationsData.map((publication) => (
+                  {filteredData.map((publication) => (
                     <tr key={publication.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                      <td className="py-4 px-4 text-sm text-slate-600">{publication.dateOfApplication}</td>
                       <td className="py-4 px-4 text-sm font-medium text-slate-800">{publication.facultyName}</td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{publication.degree}</td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{publication.sex}</td>
-                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={publication.researchTitle}>
-                        {publication.researchTitle}
+                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={publication.titleOfPaper}>
+                        {publication.titleOfPaper}
+                      </td>
+                      <td className="py-4 px-4 text-sm text-slate-600">{publication.department}</td>
+                      <td className="py-4 px-4 text-sm font-medium text-slate-800">
+                        ₱{publication.researchSubsidy.toLocaleString()}
                       </td>
                       <td className="py-4 px-4">
-                        <Badge className={getOwnershipColor(publication.ownership)}>
-                          {publication.ownership}
+                        <Badge className={getStatusColor(publication.status)}>
+                          {publication.status}
                         </Badge>
                       </td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{publication.datePublished}</td>
-                      <td className="py-4 px-4 text-sm text-slate-600 max-w-xs truncate" title={publication.journalPublished}>
-                        {publication.journalPublished}
-                      </td>
-                      <td className="py-4 px-4 text-sm font-medium text-slate-800">
-                        ₱{publication.subsidy.toLocaleString()}
+                      <td className="py-4 px-4">
+                        <Badge className={getScopeColor(publication.scope)}>
+                          {publication.scope}
+                        </Badge>
                       </td>
                     </tr>
                   ))}

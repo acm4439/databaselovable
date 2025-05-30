@@ -1,58 +1,67 @@
-
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Users } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Plus, Users, Search } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 
 const researchActivities = [
   {
     id: 1,
     dateOfActivity: '2025-05-15',
-    nameOfActivity: 'Advanced Research Methodology Workshop',
-    venue: 'University Conference Hall',
-    facilitators: 'Dr. Sarah Johnson, Prof. Michael Chen',
-    numberOfParticipants: 45,
+    nameOfActivity: 'Grant Writing Workshop',
+    venue: 'Conference Hall A',
+    facilitatorsParticipants: 'Dr. Jane Smith, Faculty Members',
+    numberOfParticipants: 30,
     activityReport: 'Completed'
   },
   {
     id: 2,
     dateOfActivity: '2025-05-10',
-    nameOfActivity: 'Grant Writing Seminar',
-    venue: 'Faculty Development Center',
-    facilitators: 'Dr. Emily Rodriguez',
-    numberOfParticipants: 32,
-    activityReport: 'Completed'
+    nameOfActivity: 'Research Ethics Seminar',
+    venue: 'Lecture Room 201',
+    facilitatorsParticipants: 'Prof. John Doe, Graduate Students',
+    numberOfParticipants: 45,
+    activityReport: 'Pending'
   },
   {
     id: 3,
     dateOfActivity: '2025-05-08',
-    nameOfActivity: 'Research Ethics Training',
-    venue: 'Online Platform',
-    facilitators: 'IRB Committee Members',
-    numberOfParticipants: 78,
+    nameOfActivity: 'Data Analysis Training',
+    venue: 'Computer Lab B',
+    facilitatorsParticipants: 'Dr. Alice Johnson, Research Assistants',
+    numberOfParticipants: 20,
     activityReport: 'Completed'
   },
   {
     id: 4,
     dateOfActivity: '2025-05-05',
-    nameOfActivity: 'Data Analysis Workshop',
-    venue: 'Computer Lab A',
-    facilitators: 'Dr. James Wilson, Teaching Assistants',
-    numberOfParticipants: 28,
-    activityReport: 'In Progress'
+    nameOfActivity: 'Qualitative Research Methods',
+    venue: 'Seminar Room 1',
+    facilitatorsParticipants: 'Prof. Robert Brown, Undergraduate Students',
+    numberOfParticipants: 35,
+    activityReport: 'Pending'
   }
 ];
 
 const ResearchActivities = () => {
-  const getReportColor = (report: string) => {
-    switch (report) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
       case 'Completed': return 'bg-green-100 text-green-800';
-      case 'In Progress': return 'bg-yellow-100 text-yellow-800';
-      case 'Planned': return 'bg-blue-100 text-blue-800';
+      case 'Pending': return 'bg-yellow-100 text-yellow-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+  const filteredData = researchActivities.filter(activity =>
+    activity.dateOfActivity.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    activity.nameOfActivity.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    activity.venue.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    activity.facilitatorsParticipants.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -62,7 +71,7 @@ const ResearchActivities = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-800 mb-2">Research Capacity Building Activities</h1>
-            <p className="text-slate-600">Track faculty development and training activities</p>
+            <p className="text-slate-600">Track faculty development and research enhancement programs</p>
           </div>
           <Button className="bg-blue-600 hover:bg-blue-700">
             <Plus className="h-4 w-4 mr-2" />
@@ -74,8 +83,17 @@ const ResearchActivities = () => {
           <CardHeader>
             <CardTitle className="text-xl text-slate-800 flex items-center">
               <Users className="h-5 w-5 mr-2" />
-              Activities Overview
+              Research Activities Overview
             </CardTitle>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                placeholder="Search research activities..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -91,19 +109,19 @@ const ResearchActivities = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {researchActivities.map((activity) => (
+                  {filteredData.map((activity) => (
                     <tr key={activity.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                       <td className="py-4 px-4 text-sm text-slate-600">{activity.dateOfActivity}</td>
                       <td className="py-4 px-4 text-sm font-medium text-slate-800 max-w-xs truncate" title={activity.nameOfActivity}>
                         {activity.nameOfActivity}
                       </td>
                       <td className="py-4 px-4 text-sm text-slate-600">{activity.venue}</td>
-                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={activity.facilitators}>
-                        {activity.facilitators}
+                      <td className="py-4 px-4 text-sm text-slate-600 max-w-xs truncate" title={activity.facilitatorsParticipants}>
+                        {activity.facilitatorsParticipants}
                       </td>
                       <td className="py-4 px-4 text-sm text-slate-600">{activity.numberOfParticipants}</td>
                       <td className="py-4 px-4">
-                        <Badge className={getReportColor(activity.activityReport)}>
+                        <Badge className={getStatusColor(activity.activityReport)}>
                           {activity.activityReport}
                         </Badge>
                       </td>
