@@ -2,64 +2,56 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, FileText } from 'lucide-react';
+import { Plus, Users } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 
 const researchActivities = [
   {
     id: 1,
-    date: '2025-05-15',
-    facultyName: 'Dr. Sarah Johnson',
-    researchTitle: 'Machine Learning Applications in Medical Diagnosis',
-    department: 'Computer Science',
-    subsidyGiven: true,
-    status: 'Active',
-    scope: 'International'
+    dateOfActivity: '2025-05-15',
+    nameOfActivity: 'Advanced Research Methodology Workshop',
+    venue: 'University Conference Hall',
+    facilitators: 'Dr. Sarah Johnson, Prof. Michael Chen',
+    numberOfParticipants: 45,
+    activityReport: 'Completed'
   },
   {
     id: 2,
-    date: '2025-05-10',
-    facultyName: 'Prof. Michael Chen',
-    researchTitle: 'Sustainable Energy Solutions for Rural Communities',
-    department: 'Engineering',
-    subsidyGiven: false,
-    status: 'Pending Approval',
-    scope: 'Local'
+    dateOfActivity: '2025-05-10',
+    nameOfActivity: 'Grant Writing Seminar',
+    venue: 'Faculty Development Center',
+    facilitators: 'Dr. Emily Rodriguez',
+    numberOfParticipants: 32,
+    activityReport: 'Completed'
   },
   {
     id: 3,
-    date: '2025-05-08',
-    facultyName: 'Dr. Emily Rodriguez',
-    researchTitle: 'Impact of Social Media on Academic Performance',
-    department: 'Psychology',
-    subsidyGiven: true,
-    status: 'Completed',
-    scope: 'Local'
+    dateOfActivity: '2025-05-08',
+    nameOfActivity: 'Research Ethics Training',
+    venue: 'Online Platform',
+    facilitators: 'IRB Committee Members',
+    numberOfParticipants: 78,
+    activityReport: 'Completed'
   },
   {
     id: 4,
-    date: '2025-05-05',
-    facultyName: 'Dr. James Wilson',
-    researchTitle: 'Climate Change Effects on Agricultural Productivity',
-    department: 'Environmental Science',
-    subsidyGiven: true,
-    status: 'Active',
-    scope: 'International'
+    dateOfActivity: '2025-05-05',
+    nameOfActivity: 'Data Analysis Workshop',
+    venue: 'Computer Lab A',
+    facilitators: 'Dr. James Wilson, Teaching Assistants',
+    numberOfParticipants: 28,
+    activityReport: 'In Progress'
   }
 ];
 
 const ResearchActivities = () => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Active': return 'bg-green-100 text-green-800';
-      case 'Completed': return 'bg-blue-100 text-blue-800';
-      case 'Pending Approval': return 'bg-yellow-100 text-yellow-800';
+  const getReportColor = (report: string) => {
+    switch (report) {
+      case 'Completed': return 'bg-green-100 text-green-800';
+      case 'In Progress': return 'bg-yellow-100 text-yellow-800';
+      case 'Planned': return 'bg-blue-100 text-blue-800';
       default: return 'bg-gray-100 text-gray-800';
     }
-  };
-
-  const getScopeColor = (scope: string) => {
-    return scope === 'International' ? 'bg-purple-100 text-purple-800' : 'bg-orange-100 text-orange-800';
   };
 
   return (
@@ -70,7 +62,7 @@ const ResearchActivities = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-800 mb-2">Research Capacity Building Activities</h1>
-            <p className="text-slate-600">Manage and track faculty research projects and initiatives</p>
+            <p className="text-slate-600">Track faculty development and training activities</p>
           </div>
           <Button className="bg-blue-600 hover:bg-blue-700">
             <Plus className="h-4 w-4 mr-2" />
@@ -81,8 +73,8 @@ const ResearchActivities = () => {
         <Card className="bg-white shadow-lg border-0">
           <CardHeader>
             <CardTitle className="text-xl text-slate-800 flex items-center">
-              <FileText className="h-5 w-5 mr-2" />
-              Research Activities Overview
+              <Users className="h-5 w-5 mr-2" />
+              Activities Overview
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -90,37 +82,29 @@ const ResearchActivities = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-slate-200">
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Date</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Faculty Name</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Research Title</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Department</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Subsidy</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Status</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Scope</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Date of Activity</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Name of Activity</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Venue</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Facilitators/Participants</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Number of Participants</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Activity Report</th>
                   </tr>
                 </thead>
                 <tbody>
                   {researchActivities.map((activity) => (
                     <tr key={activity.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                      <td className="py-4 px-4 text-sm text-slate-600">{activity.date}</td>
-                      <td className="py-4 px-4 text-sm font-medium text-slate-800">{activity.facultyName}</td>
-                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={activity.researchTitle}>
-                        {activity.researchTitle}
+                      <td className="py-4 px-4 text-sm text-slate-600">{activity.dateOfActivity}</td>
+                      <td className="py-4 px-4 text-sm font-medium text-slate-800 max-w-xs truncate" title={activity.nameOfActivity}>
+                        {activity.nameOfActivity}
                       </td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{activity.department}</td>
-                      <td className="py-4 px-4">
-                        <Badge variant={activity.subsidyGiven ? "default" : "secondary"}>
-                          {activity.subsidyGiven ? 'Yes' : 'No'}
-                        </Badge>
+                      <td className="py-4 px-4 text-sm text-slate-600">{activity.venue}</td>
+                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={activity.facilitators}>
+                        {activity.facilitators}
                       </td>
+                      <td className="py-4 px-4 text-sm text-slate-600">{activity.numberOfParticipants}</td>
                       <td className="py-4 px-4">
-                        <Badge className={getStatusColor(activity.status)}>
-                          {activity.status}
-                        </Badge>
-                      </td>
-                      <td className="py-4 px-4">
-                        <Badge className={getScopeColor(activity.scope)}>
-                          {activity.scope}
+                        <Badge className={getReportColor(activity.activityReport)}>
+                          {activity.activityReport}
                         </Badge>
                       </td>
                     </tr>

@@ -8,39 +8,35 @@ import Navigation from '@/components/Navigation';
 const ethicsProtocols = [
   {
     id: 1,
-    protocolTitle: 'Student Privacy in Digital Learning Environments',
-    dateSubmitted: '2025-05-20',
+    no: 'ETH-001',
+    listOfTitle: 'Student Privacy in Digital Learning Environments',
+    departmentDataForwarded: 'Computer Science Department',
     status: 'Approved',
-    remarks: 'Minor revisions completed',
-    facultyName: 'Dr. Sarah Johnson',
-    reviewBoard: 'IRB-001'
+    actionTaken: 'Protocol approved with minor revisions'
   },
   {
     id: 2,
-    protocolTitle: 'Community Health Data Collection Procedures',
-    dateSubmitted: '2025-05-18',
+    no: 'ETH-002',
+    listOfTitle: 'Community Health Data Collection Procedures',
+    departmentDataForwarded: 'Health Sciences Department',
     status: 'Under Review',
-    remarks: 'Awaiting committee feedback',
-    facultyName: 'Prof. Michael Chen',
-    reviewBoard: 'IRB-002'
+    actionTaken: 'Awaiting committee feedback on consent procedures'
   },
   {
     id: 3,
-    protocolTitle: 'Social Media Behavior Analysis Protocol',
-    dateSubmitted: '2025-05-15',
+    no: 'ETH-003',
+    listOfTitle: 'Social Media Behavior Analysis Protocol',
+    departmentDataForwarded: 'Psychology Department',
     status: 'Conditional Approval',
-    remarks: 'Consent form needs revision',
-    facultyName: 'Dr. Emily Rodriguez',
-    reviewBoard: 'IRB-001'
+    actionTaken: 'Consent form revision required before final approval'
   },
   {
     id: 4,
-    protocolTitle: 'Environmental Impact Assessment Ethics',
-    dateSubmitted: '2025-05-12',
+    no: 'ETH-004',
+    listOfTitle: 'Environmental Impact Assessment Ethics',
+    departmentDataForwarded: 'Environmental Science Department',
     status: 'Rejected',
-    remarks: 'Insufficient risk mitigation measures',
-    facultyName: 'Dr. James Wilson',
-    reviewBoard: 'IRB-003'
+    actionTaken: 'Insufficient risk mitigation measures - resubmission required'
   }
 ];
 
@@ -83,30 +79,28 @@ const EthicsProtocols = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-slate-200">
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Protocol Title</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Faculty Name</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Date Submitted</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Review Board</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">No.</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">List of Title</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Department/Data Forwarded</th>
                     <th className="text-left py-3 px-4 font-semibold text-slate-700">Status</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Remarks</th>
+                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Action Taken</th>
                   </tr>
                 </thead>
                 <tbody>
                   {ethicsProtocols.map((protocol) => (
                     <tr key={protocol.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={protocol.protocolTitle}>
-                        {protocol.protocolTitle}
+                      <td className="py-4 px-4 text-sm font-medium text-slate-800">{protocol.no}</td>
+                      <td className="py-4 px-4 text-sm text-slate-700 max-w-xs truncate" title={protocol.listOfTitle}>
+                        {protocol.listOfTitle}
                       </td>
-                      <td className="py-4 px-4 text-sm font-medium text-slate-800">{protocol.facultyName}</td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{protocol.dateSubmitted}</td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{protocol.reviewBoard}</td>
+                      <td className="py-4 px-4 text-sm text-slate-600">{protocol.departmentDataForwarded}</td>
                       <td className="py-4 px-4">
                         <Badge className={getStatusColor(protocol.status)}>
                           {protocol.status}
                         </Badge>
                       </td>
-                      <td className="py-4 px-4 text-sm text-slate-600 max-w-xs truncate" title={protocol.remarks}>
-                        {protocol.remarks}
+                      <td className="py-4 px-4 text-sm text-slate-600 max-w-xs truncate" title={protocol.actionTaken}>
+                        {protocol.actionTaken}
                       </td>
                     </tr>
                   ))}

@@ -19,10 +19,10 @@ const Navigation = () => {
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/research-activities', label: 'Research Activities', icon: Users },
-    { path: '/data-collection', label: 'Data Collection Tools', icon: Database },
-    { path: '/ethics-protocols', label: 'Ethics Protocols', icon: Shield },
-    { path: '/publications', label: 'Publications', icon: BookOpen },
+    { path: '/research-activities', label: 'Research Capacity Building', icon: Users },
+    { path: '/data-collection', label: 'Publications and Presentations', icon: Database },
+    { path: '/ethics-protocols', label: 'Ethics Reviewed Protocols', icon: Shield },
+    { path: '/publications', label: 'Data Collection Tools', icon: BookOpen },
     { path: '/kpi-records', label: 'KPI Records', icon: TrendingUp },
   ];
 
@@ -33,7 +33,7 @@ const Navigation = () => {
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <div className="text-xl font-bold text-slate-800">FRMS</div>
+            <div className="text-xl font-bold text-slate-800">RSO</div>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-1">
