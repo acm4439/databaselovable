@@ -23,96 +23,96 @@ const recentUpdates = [
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #C0C7AB 0%, #989F7E 100%)' }}>
       <Navigation />
       
       <div className="container mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-800 mb-2">Faculty Research Management System</h1>
-          <p className="text-slate-600 text-lg">Comprehensive overview of research activities and performance metrics</p>
+          <h1 className="text-4xl font-bold text-white mb-3 drop-shadow-md">Faculty Research Management System</h1>
+          <p className="text-white/90 text-lg drop-shadow-sm">Comprehensive overview of research activities and performance metrics</p>
         </div>
 
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-white shadow-lg border-0 hover:shadow-xl transition-shadow">
+          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Research Activities</CardTitle>
-              <Users className="h-5 w-5 text-blue-600" />
+              <CardTitle className="text-sm font-semibold text-rso-dark-green">Research Activities</CardTitle>
+              <Users className="h-5 w-5 text-rso-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-800">124</div>
-              <p className="text-xs text-slate-500 mt-1">+12% from last month</p>
+              <div className="text-3xl font-bold text-rso-dark-green">124</div>
+              <p className="text-xs text-rso-medium-green mt-1">+12% from last month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-lg border-0 hover:shadow-xl transition-shadow">
+          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Ethics Protocols</CardTitle>
-              <Shield className="h-5 w-5 text-green-600" />
+              <CardTitle className="text-sm font-semibold text-rso-dark-green">Ethics Protocols</CardTitle>
+              <Shield className="h-5 w-5 text-rso-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-800">38</div>
-              <p className="text-xs text-slate-500 mt-1">+5% from last month</p>
+              <div className="text-3xl font-bold text-rso-dark-green">38</div>
+              <p className="text-xs text-rso-medium-green mt-1">+5% from last month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-lg border-0 hover:shadow-xl transition-shadow">
+          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Publications</CardTitle>
-              <BookOpen className="h-5 w-5 text-purple-600" />
+              <CardTitle className="text-sm font-semibold text-rso-dark-green">Publications</CardTitle>
+              <BookOpen className="h-5 w-5 text-rso-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-800">267</div>
-              <p className="text-xs text-slate-500 mt-1">+18% from last month</p>
+              <div className="text-3xl font-bold text-rso-dark-green">267</div>
+              <p className="text-xs text-rso-medium-green mt-1">+18% from last month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-lg border-0 hover:shadow-xl transition-shadow">
+          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Average KPI Score</CardTitle>
-              <TrendingUp className="h-5 w-5 text-orange-600" />
+              <CardTitle className="text-sm font-semibold text-rso-dark-green">Average KPI Score</CardTitle>
+              <TrendingUp className="h-5 w-5 text-rso-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-800">8.4</div>
-              <p className="text-xs text-slate-500 mt-1">+0.3 from last quarter</p>
+              <div className="text-3xl font-bold text-rso-dark-green">8.4</div>
+              <p className="text-xs text-rso-medium-green mt-1">+0.3 from last quarter</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Charts and Recent Updates */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="bg-white shadow-lg border-0">
-            <CardHeader>
-              <CardTitle className="text-xl text-slate-800">Research Activity Trends</CardTitle>
+          <Card className="bg-white shadow-2xl border-0 rounded-xl">
+            <CardHeader className="rso-light-green">
+              <CardTitle className="text-xl text-rso-dark-green font-bold">Research Activity Trends</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6">
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="activities" fill="#3b82f6" name="Research Activities" />
-                  <Bar dataKey="publications" fill="#8b5cf6" name="Publications" />
-                  <Bar dataKey="protocols" fill="#10b981" name="Ethics Protocols" />
+                  <Bar dataKey="activities" fill="#AC855E" name="Research Activities" />
+                  <Bar dataKey="publications" fill="#989F7E" name="Publications" />
+                  <Bar dataKey="protocols" fill="#6D7361" name="Ethics Protocols" />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-lg border-0">
-            <CardHeader>
-              <CardTitle className="text-xl text-slate-800">Recent Updates</CardTitle>
+          <Card className="bg-white shadow-2xl border-0 rounded-xl">
+            <CardHeader className="rso-light-green">
+              <CardTitle className="text-xl text-rso-dark-green font-bold">Recent Updates</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6">
               <div className="space-y-4">
                 {recentUpdates.map((update, index) => (
-                  <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors">
-                    <FileText className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-rso-light-green/20 hover:bg-rso-light-green/30 transition-colors">
+                    <FileText className="h-5 w-5 text-rso-accent mt-0.5 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-800 truncate">{update.title}</p>
-                      <p className="text-xs text-slate-500">{update.type} • {update.faculty}</p>
-                      <p className="text-xs text-slate-400 mt-1">{update.date}</p>
+                      <p className="text-sm font-semibold text-rso-dark-green truncate">{update.title}</p>
+                      <p className="text-xs text-rso-medium-green">{update.type} • {update.faculty}</p>
+                      <p className="text-xs text-rso-medium-green/80 mt-1">{update.date}</p>
                     </div>
                   </div>
                 ))}

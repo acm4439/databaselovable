@@ -44,8 +44,11 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --rso-dark-green: 180 100% 10%;
-    --rso-light-green: 170 95% 32%;
+    /* New RSO Color Palette */
+    --rso-dark-green: #6D7361;
+    --rso-medium-green: #989F7E;
+    --rso-light-green: #C0C7AB;
+    --rso-accent: #AC855E;
   }
 
   .dark {
@@ -99,26 +102,58 @@
 
 @layer utilities {
   .rso-dark-green {
-    background-color: #003333;
+    background-color: #6D7361;
+  }
+  
+  .rso-medium-green {
+    background-color: #989F7E;
   }
   
   .rso-light-green {
-    background-color: #027c68;
+    background-color: #C0C7AB;
+  }
+  
+  .rso-accent {
+    background-color: #AC855E;
   }
   
   .text-rso-dark-green {
-    color: #003333;
+    color: #6D7361;
+  }
+  
+  .text-rso-medium-green {
+    color: #989F7E;
   }
   
   .text-rso-light-green {
-    color: #027c68;
+    color: #C0C7AB;
+  }
+  
+  .text-rso-accent {
+    color: #AC855E;
+  }
+  
+  .border-rso-dark-green {
+    border-color: #6D7361;
+  }
+  
+  .border-rso-medium-green {
+    border-color: #989F7E;
   }
   
   .border-rso-light-green {
-    border-color: #027c68;
+    border-color: #C0C7AB;
   }
   
-  .hover\:rso-dark-green:hover {
-    background-color: #002626;
+  .border-rso-accent {
+    border-color: #AC855E;
+  }
+  
+  .hover\:rso-dark-green-hover:hover {
+    background-color: #5A6350;
+  }
+  
+  .hover\:rso-accent-hover:hover {
+    background-color: #9A7450;
   }
 }

@@ -67,57 +67,57 @@ const KPIRecords = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #C0C7AB 0%, #989F7E 100%)' }}>
       <Navigation />
       
       <div className="container mx-auto px-6 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">Faculty KPI Tracking</h1>
-            <p className="text-slate-600">Monitor academic performance indicators and faculty achievements</p>
+            <h1 className="text-4xl font-bold text-white mb-3 drop-shadow-md">Faculty KPI Tracking</h1>
+            <p className="text-white/90 text-lg drop-shadow-sm">Monitor academic performance indicators and faculty achievements</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button className="rso-dark-green hover:rso-dark-green-hover text-white shadow-lg font-semibold">
             <Plus className="h-4 w-4 mr-2" />
             Add New Entry
           </Button>
         </div>
 
-        <Card className="bg-white shadow-lg border-0">
-          <CardHeader>
-            <CardTitle className="text-xl text-slate-800 flex items-center">
-              <TrendingUp className="h-5 w-5 mr-2" />
+        <Card className="bg-white shadow-2xl border-0 rounded-2xl overflow-hidden">
+          <CardHeader className="rso-medium-green text-white">
+            <CardTitle className="text-2xl flex items-center font-bold">
+              <TrendingUp className="h-6 w-6 mr-3" />
               KPI Performance Overview
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-slate-200">
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Faculty Name</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Period</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Publications</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Trainings</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Presentations</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">KPI Score</th>
-                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Performance</th>
+                  <tr className="rso-light-green border-b-2 border-rso-medium-green">
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Faculty Name</th>
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Period</th>
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Publications</th>
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Trainings</th>
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Presentations</th>
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">KPI Score</th>
+                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Performance</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {kpiRecords.map((record) => (
-                    <tr key={record.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                      <td className="py-4 px-4 text-sm font-medium text-slate-800">{record.facultyName}</td>
-                      <td className="py-4 px-4 text-sm text-slate-600">{record.period}</td>
-                      <td className="py-4 px-4 text-sm text-slate-700 text-center">{record.publicationsCount}</td>
-                      <td className="py-4 px-4 text-sm text-slate-700 text-center">{record.trainingsAttended}</td>
-                      <td className="py-4 px-4 text-sm text-slate-700 text-center">{record.presentationsMade}</td>
-                      <td className="py-4 px-4 text-sm text-center">
+                  {kpiRecords.map((record, index) => (
+                    <tr key={record.id} className={`border-b border-gray-100 hover:bg-rso-light-green/30 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                      <td className="py-5 px-6 text-sm font-semibold text-rso-dark-green">{record.facultyName}</td>
+                      <td className="py-5 px-6 text-sm text-rso-dark-green">{record.period}</td>
+                      <td className="py-5 px-6 text-sm text-rso-dark-green text-center font-medium">{record.publicationsCount}</td>
+                      <td className="py-5 px-6 text-sm text-rso-dark-green text-center font-medium">{record.trainingsAttended}</td>
+                      <td className="py-5 px-6 text-sm text-rso-dark-green text-center font-medium">{record.presentationsMade}</td>
+                      <td className="py-5 px-6 text-sm text-center">
                         <span className={getScoreColor(record.kpiScore)}>
                           {record.kpiScore}
                         </span>
                       </td>
-                      <td className="py-4 px-4">
-                        <Badge className={getPerformanceColor(record.performance)}>
+                      <td className="py-5 px-6">
+                        <Badge className={`${getPerformanceColor(record.performance)} border font-medium`}>
                           {record.performance}
                         </Badge>
                       </td>
