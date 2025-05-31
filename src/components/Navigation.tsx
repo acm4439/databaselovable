@@ -37,9 +37,9 @@ const Navigation = () => {
               <img 
                 src="/lovable-uploads/8165a96b-bd3e-4e12-af41-750d2fc8fefc.png" 
                 alt="Research Service Office Logo" 
-                className="h-10 w-10 object-contain"
+                className="h-10 w-10 object-contain flex-shrink-0"
               />
-              <div className="text-xl font-bold text-rso-dark-green">UC RSO</div>
+              <div className="text-xl font-bold text-rso-dark-green whitespace-nowrap">UC RSO</div>
             </div>
             
             {/* Desktop Navigation */}
