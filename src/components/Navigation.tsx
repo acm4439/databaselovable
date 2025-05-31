@@ -32,14 +32,14 @@ const Navigation = () => {
     <nav className="bg-white shadow-xl border-b-2 border-rso-light-green">
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-2">
               <img 
                 src="/lovable-uploads/8165a96b-bd3e-4e12-af41-750d2fc8fefc.png" 
                 alt="Research Service Office Logo" 
-                className="h-12 w-12 object-contain"
+                className="h-10 w-10 object-contain"
               />
-              <div className="text-2xl font-bold text-rso-dark-green">RSO</div>
+              <div className="text-xl font-bold text-rso-dark-green">UC RSO</div>
             </div>
             
             {/* Desktop Navigation */}
