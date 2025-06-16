@@ -88,6 +88,13 @@ const MegaMenuNavigation = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  const isItemActive = (item: any) => {
+    if (!item.hasDropdown) {
+      return isActive(item.path);
+    }
+    return item.items?.some((subItem: any) => isActive(subItem.path));
+  };
+
   return (
     <nav className="bg-black shadow-lg border-b border-gray-700">
       <div className="container mx-auto px-6">
@@ -112,7 +119,7 @@ const MegaMenuNavigation = () => {
                       <Button
                         variant="ghost"
                         className={`flex items-center space-x-1 text-white hover:bg-gray-800 ${
-                          activeDropdown === item.id ? 'bg-gray-800' : ''
+                          activeDropdown === item.id || isItemActive(item) ? 'bg-gray-800' : ''
                         }`}
                         onClick={() => handleDropdownToggle(item.id)}
                       >
@@ -146,7 +153,7 @@ const MegaMenuNavigation = () => {
                               to={subItem.path}
                               onClick={() => setActiveDropdown(null)}
                             >
-                              <div className={`px-4 py-2 text-sm hover:bg-gray-800 ${
+                              <div className={`px-4 py-2 text-sm hover:bg-gray-800 transition-colors ${
                                 isActive(subItem.path) ? 'bg-white text-black' : 'text-white'
                               }`}>
                                 {subItem.label}
@@ -205,7 +212,7 @@ const MegaMenuNavigation = () => {
                                   setActiveDropdown(null);
                                 }}
                               >
-                                <div className={`px-4 py-2 text-sm hover:bg-gray-800 rounded ${
+                                <div className={`px-4 py-2 text-sm hover:bg-gray-800 rounded transition-colors ${
                                   isActive(subItem.path) ? 'bg-white text-black' : 'text-gray-300'
                                 }`}>
                                   {subItem.label}

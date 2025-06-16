@@ -5,70 +5,64 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, ExternalLink, Calendar, Users } from 'lucide-react';
+import { BookOpen, Calendar, Users, Plus } from 'lucide-react';
 import MegaMenuNavigation from '@/components/MegaMenuNavigation';
 import FileUpload from '@/components/FileUpload';
 
 const mockPublicationsData = [
   { 
     id: 1, 
-    title: "Machine Learning Applications in Healthcare Diagnostics", 
-    authors: "Dr. Sarah Johnson, Prof. Michael Chen", 
-    journal: "Journal of Medical AI", 
-    year: 2024, 
-    volume: "15(3)", 
-    pages: "234-251", 
-    citations: 23, 
-    doi: "10.1000/jmai.2024.15.3.234",
-    type: "Journal Article"
+    dateOfApplication: "2024-06-10",
+    facultyName: "Dr. Sarah Johnson", 
+    titleOfPaper: "Machine Learning Applications in Healthcare Diagnostics", 
+    department: "Computer Science", 
+    status: "Published",
+    type: "International"
   },
   { 
     id: 2, 
-    title: "Cognitive Load Theory in Digital Learning Environments", 
-    authors: "Dr. Robert Wilson, Dr. Emily Davis", 
-    journal: "Educational Psychology Review", 
-    year: 2024, 
-    volume: "12(2)", 
-    pages: "89-106", 
-    citations: 45, 
-    doi: "10.1000/epr.2024.12.2.89",
-    type: "Journal Article"
+    dateOfApplication: "2024-05-25",
+    facultyName: "Dr. Robert Wilson", 
+    titleOfPaper: "Cognitive Load Theory in Digital Learning Environments", 
+    department: "Education", 
+    status: "Under Review",
+    type: "Local"
   },
   { 
     id: 3, 
-    title: "Synthesis of Novel Organic Compounds for Drug Development", 
-    authors: "Dr. Lisa Anderson", 
-    journal: "Organic Chemistry Letters", 
-    year: 2023, 
-    volume: "8(12)", 
-    pages: "1456-1472", 
-    citations: 67, 
-    doi: "10.1000/ocl.2023.8.12.1456",
-    type: "Journal Article"
+    dateOfApplication: "2024-05-15",
+    facultyName: "Dr. Lisa Anderson", 
+    titleOfPaper: "Synthesis of Novel Organic Compounds for Drug Development", 
+    department: "Chemistry", 
+    status: "Published",
+    type: "International"
   },
   { 
     id: 4, 
-    title: "Robotics in Manufacturing: A Comprehensive Review", 
-    authors: "Dr. Emily Davis, Prof. John Thompson", 
-    journal: "IEEE Robotics Conference", 
-    year: 2024, 
-    volume: "N/A", 
-    pages: "1-8", 
-    citations: 12, 
-    doi: "10.1109/ICRA.2024.1234567",
-    type: "Conference Paper"
+    dateOfApplication: "2024-04-30",
+    facultyName: "Dr. Emily Davis", 
+    titleOfPaper: "Robotics in Manufacturing: A Comprehensive Review", 
+    department: "Engineering", 
+    status: "Accepted",
+    type: "International"
   },
   { 
     id: 5, 
-    title: "Climate Change Impact on Cardiovascular Health", 
-    authors: "Prof. Michael Chen, Dr. Sarah Johnson", 
-    journal: "Environmental Health Perspectives", 
-    year: 2024, 
-    volume: "132(4)", 
-    pages: "047001", 
-    citations: 34, 
-    doi: "10.1289/EHP.2024.132.4.047001",
-    type: "Journal Article"
+    dateOfApplication: "2024-04-20",
+    facultyName: "Prof. Michael Chen", 
+    titleOfPaper: "Climate Change Impact on Cardiovascular Health", 
+    department: "Medicine", 
+    status: "Published",
+    type: "International"
+  },
+  { 
+    id: 6, 
+    dateOfApplication: "2024-04-10",
+    facultyName: "Dr. Maria Garcia", 
+    titleOfPaper: "Social Media Influence on Youth Behavior Patterns", 
+    department: "Psychology", 
+    status: "Under Review",
+    type: "Local"
   }
 ];
 
@@ -116,10 +110,10 @@ const Publications = () => {
           <Card className="bg-gray-800 border-gray-700">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
-                <ExternalLink className="h-5 w-5 text-yellow-400" />
+                <Users className="h-5 w-5 text-yellow-400" />
                 <div>
-                  <p className="text-sm text-gray-400">Total Citations</p>
-                  <p className="text-2xl font-bold text-white">12,456</p>
+                  <p className="text-sm text-gray-400">International</p>
+                  <p className="text-2xl font-bold text-white">456</p>
                 </div>
               </div>
             </CardContent>
@@ -130,8 +124,8 @@ const Publications = () => {
               <div className="flex items-center space-x-2">
                 <Users className="h-5 w-5 text-purple-400" />
                 <div>
-                  <p className="text-sm text-gray-400">Avg per Researcher</p>
-                  <p className="text-2xl font-bold text-white">5.3</p>
+                  <p className="text-sm text-gray-400">Local</p>
+                  <p className="text-2xl font-bold text-white">791</p>
                 </div>
               </div>
             </CardContent>
@@ -141,29 +135,36 @@ const Publications = () => {
         {/* Add New Publication Form */}
         <Card className="bg-gray-800 border-gray-700 mb-8">
           <CardHeader>
-            <CardTitle className="text-xl text-white">Add New Publication</CardTitle>
+            <CardTitle className="text-xl text-white flex items-center space-x-2">
+              <Plus className="h-5 w-5" />
+              <span>Add New Publication</span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <Label htmlFor="applicationDate" className="text-gray-200">Date of Application</Label>
+                <Input id="applicationDate" type="date" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
+              <div>
+                <Label htmlFor="facultyName" className="text-gray-200">Name of Faculty/Research Worker</Label>
+                <Input id="facultyName" placeholder="Dr. John Smith" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
               <div className="md:col-span-2">
-                <Label htmlFor="title" className="text-gray-200">Title</Label>
-                <Input id="title" placeholder="Publication title" className="bg-gray-700 border-gray-600 text-white" />
+                <Label htmlFor="title" className="text-gray-200">Title of Paper</Label>
+                <Input id="title" placeholder="Research paper title" className="bg-gray-700 border-gray-600 text-white" />
               </div>
               <div>
-                <Label htmlFor="authors" className="text-gray-200">Authors</Label>
-                <Input id="authors" placeholder="Dr. John Smith, Prof. Jane Doe" className="bg-gray-700 border-gray-600 text-white" />
+                <Label htmlFor="department" className="text-gray-200">Department</Label>
+                <Input id="department" placeholder="Department name" className="bg-gray-700 border-gray-600 text-white" />
               </div>
               <div>
-                <Label htmlFor="journal" className="text-gray-200">Journal/Conference</Label>
-                <Input id="journal" placeholder="Journal name" className="bg-gray-700 border-gray-600 text-white" />
+                <Label htmlFor="status" className="text-gray-200">Status</Label>
+                <Input id="status" placeholder="Published/Under Review/Accepted" className="bg-gray-700 border-gray-600 text-white" />
               </div>
               <div>
-                <Label htmlFor="year" className="text-gray-200">Year</Label>
-                <Input id="year" type="number" placeholder="2024" className="bg-gray-700 border-gray-600 text-white" />
-              </div>
-              <div>
-                <Label htmlFor="doi" className="text-gray-200">DOI</Label>
-                <Input id="doi" placeholder="10.1000/journal.year.volume.page" className="bg-gray-700 border-gray-600 text-white" />
+                <Label htmlFor="type" className="text-gray-200">Local/International</Label>
+                <Input id="type" placeholder="Local or International" className="bg-gray-700 border-gray-600 text-white" />
               </div>
             </div>
             <Button className="bg-white text-black hover:bg-gray-200">Add Publication</Button>
@@ -185,51 +186,40 @@ const Publications = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="border-gray-700">
-                    <TableHead className="text-gray-200">Title</TableHead>
-                    <TableHead className="text-gray-200">Authors</TableHead>
-                    <TableHead className="text-gray-200">Journal/Conference</TableHead>
-                    <TableHead className="text-gray-200">Year</TableHead>
-                    <TableHead className="text-gray-200">Type</TableHead>
-                    <TableHead className="text-gray-200">Citations</TableHead>
-                    <TableHead className="text-gray-200">DOI</TableHead>
+                    <TableHead className="text-gray-200">Date of Application</TableHead>
+                    <TableHead className="text-gray-200">Name of Faculty/Research Worker</TableHead>
+                    <TableHead className="text-gray-200">Title of Paper</TableHead>
+                    <TableHead className="text-gray-200">Department</TableHead>
+                    <TableHead className="text-gray-200">Status</TableHead>
+                    <TableHead className="text-gray-200">Local/International</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {mockPublicationsData.map((publication) => (
                     <TableRow key={publication.id} className="border-gray-700 hover:bg-gray-700/50">
-                      <TableCell className="text-white font-medium max-w-xs">
-                        <div className="truncate" title={publication.title}>
-                          {publication.title}
+                      <TableCell className="text-white font-medium">{publication.dateOfApplication}</TableCell>
+                      <TableCell className="text-gray-300">{publication.facultyName}</TableCell>
+                      <TableCell className="text-white max-w-xs">
+                        <div className="truncate" title={publication.titleOfPaper}>
+                          {publication.titleOfPaper}
                         </div>
                       </TableCell>
-                      <TableCell className="text-gray-300 max-w-xs">
-                        <div className="truncate" title={publication.authors}>
-                          {publication.authors}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-gray-300">
-                        <div>
-                          <div className="font-medium">{publication.journal}</div>
-                          <div className="text-xs text-gray-400">{publication.volume}, pp. {publication.pages}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-white">{publication.year}</TableCell>
+                      <TableCell className="text-gray-300">{publication.department}</TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="border-gray-600 text-gray-300">
-                          {publication.type}
+                        <Badge variant="outline" className={`border-gray-600 ${
+                          publication.status === 'Published' ? 'text-green-400 border-green-600' :
+                          publication.status === 'Accepted' ? 'text-blue-400 border-blue-600' :
+                          'text-yellow-400 border-yellow-600'
+                        }`}>
+                          {publication.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-white font-medium">{publication.citations}</TableCell>
-                      <TableCell className="text-gray-300">
-                        <a 
-                          href={`https://doi.org/${publication.doi}`} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center space-x-1 hover:text-white transition-colors"
-                        >
-                          <span className="text-xs">{publication.doi}</span>
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
+                      <TableCell>
+                        <Badge variant="outline" className={`border-gray-600 ${
+                          publication.type === 'International' ? 'text-purple-400 border-purple-600' : 'text-orange-400 border-orange-600'
+                        }`}>
+                          {publication.type}
+                        </Badge>
                       </TableCell>
                     </TableRow>
                   ))}

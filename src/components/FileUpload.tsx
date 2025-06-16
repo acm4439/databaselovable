@@ -79,11 +79,11 @@ const FileUpload = ({
   };
 
   return (
-    <Card className="border-2 border-dashed border-rso-light-green hover:border-rso-accent transition-colors rounded-xl">
+    <Card className="border-2 border-dashed border-gray-600 hover:border-gray-500 transition-colors rounded-xl bg-gray-800">
       <CardContent className="p-6">
         <div
           className={`flex flex-col items-center justify-center space-y-4 ${
-            isDragOver ? 'bg-rso-light-green/20' : ''
+            isDragOver ? 'bg-gray-700/50' : ''
           } rounded-lg transition-colors`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -91,10 +91,10 @@ const FileUpload = ({
         >
           {uploadedFile ? (
             <div className="flex items-center space-x-4 w-full">
-              <FileSpreadsheet className="h-8 w-8 text-rso-accent" />
+              <FileSpreadsheet className="h-8 w-8 text-blue-400" />
               <div className="flex-1">
-                <p className="text-sm font-semibold text-rso-dark-green">{uploadedFile.name}</p>
-                <p className="text-xs text-rso-medium-green">
+                <p className="text-sm font-semibold text-white">{uploadedFile.name}</p>
+                <p className="text-xs text-gray-400">
                   {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
               </div>
@@ -102,22 +102,22 @@ const FileUpload = ({
                 variant="ghost"
                 size="sm"
                 onClick={removeFile}
-                className="text-rso-medium-green hover:text-red-600 hover:bg-red-50"
+                className="text-gray-400 hover:text-red-400 hover:bg-gray-700"
               >
                 <X className="h-4 w-4" />
               </Button>
             </div>
           ) : (
             <>
-              <Upload className="h-12 w-12 text-rso-medium-green" />
+              <Upload className="h-12 w-12 text-gray-400" />
               <div className="text-center">
-                <p className="text-lg font-semibold text-rso-dark-green">
+                <p className="text-lg font-semibold text-white">
                   Drop your Excel file here
                 </p>
-                <p className="text-sm text-rso-medium-green">
+                <p className="text-sm text-gray-400">
                   or click to browse files
                 </p>
-                <p className="text-xs text-rso-medium-green/80 mt-1">
+                <p className="text-xs text-gray-500 mt-1">
                   Supports: {acceptedTypes.join(', ')} (max {maxSize}MB)
                 </p>
               </div>
@@ -129,7 +129,7 @@ const FileUpload = ({
                 id="file-upload"
               />
               <label htmlFor="file-upload">
-                <Button className="rso-accent hover:rso-accent-hover text-white cursor-pointer font-semibold shadow-md">
+                <Button className="bg-white text-black hover:bg-gray-200 cursor-pointer font-semibold shadow-md">
                   Browse Files
                 </Button>
               </label>
@@ -137,7 +137,7 @@ const FileUpload = ({
           )}
           
           {error && (
-            <div className="flex items-center space-x-2 text-red-700 bg-red-50 p-3 rounded-md w-full border border-red-200">
+            <div className="flex items-center space-x-2 text-red-400 bg-red-900/20 p-3 rounded-md w-full border border-red-800">
               <AlertCircle className="h-4 w-4" />
               <p className="text-sm font-medium">{error}</p>
             </div>
