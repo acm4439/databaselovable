@@ -1,125 +1,211 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { FileText, Users, Shield, BookOpen, TrendingUp } from 'lucide-react';
-import Navigation from '@/components/Navigation';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
+import { FileText, Users, BookOpen, TrendingUp, Shield, GraduationCap } from 'lucide-react';
+import MegaMenuNavigation from '@/components/MegaMenuNavigation';
 
-const chartData = [
-  { month: 'Jan', activities: 12, publications: 8, protocols: 5 },
-  { month: 'Feb', activities: 15, publications: 12, protocols: 7 },
-  { month: 'Mar', activities: 18, publications: 10, protocols: 9 },
-  { month: 'Apr', activities: 14, publications: 15, protocols: 6 },
-  { month: 'May', activities: 20, publications: 18, protocols: 8 },
-  { month: 'Jun', activities: 16, publications: 14, protocols: 4 }
+const publicationTrendsData = [
+  { month: 'Jan', publications: 12, citations: 45 },
+  { month: 'Feb', publications: 15, citations: 52 },
+  { month: 'Mar', publications: 18, citations: 63 },
+  { month: 'Apr', publications: 14, citations: 48 },
+  { month: 'May', publications: 20, citations: 71 },
+  { month: 'Jun', publications: 16, citations: 55 }
 ];
 
-const recentUpdates = [
-  { type: 'Research Activity', title: 'AI in Education Research Project', faculty: 'Dr. Smith', date: '2025-05-28' },
-  { type: 'Publication', title: 'Machine Learning Applications in Healthcare', faculty: 'Prof. Johnson', date: '2025-05-27' },
-  { type: 'Ethics Protocol', title: 'Student Learning Behavior Study', faculty: 'Dr. Williams', date: '2025-05-26' },
-  { type: 'KPI Update', title: 'Q2 Performance Review', faculty: 'Dr. Brown', date: '2025-05-25' }
+const researchDistributionData = [
+  { name: 'Computer Science', value: 35, color: '#8884d8' },
+  { name: 'Medicine', value: 25, color: '#82ca9d' },
+  { name: 'Engineering', value: 20, color: '#ffc658' },
+  { name: 'Social Sciences', value: 12, color: '#ff7300' },
+  { name: 'Others', value: 8, color: '#00ff00' }
+];
+
+const recentActivities = [
+  { type: 'Publication', title: 'AI Applications in Healthcare Research', researcher: 'Dr. Sarah Johnson', date: '2025-06-10', status: 'Published' },
+  { type: 'Protocol', title: 'Student Learning Behavior Study', researcher: 'Dr. Michael Chen', date: '2025-06-08', status: 'Approved' },
+  { type: 'Training', title: 'Research Ethics Workshop', attendees: 45, date: '2025-06-05', status: 'Completed' },
+  { type: 'Project', title: 'Machine Learning in Education', researcher: 'Prof. Emily Davis', date: '2025-06-03', status: 'In Progress' }
 ];
 
 const Index = () => {
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #C0C7AB 0%, #989F7E 100%)' }}>
-      <Navigation />
+    <div className="min-h-screen bg-zinc-900 text-white">
+      <MegaMenuNavigation />
       
       <div className="container mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-3 drop-shadow-md">Faculty Research Management System</h1>
-          <p className="text-white/90 text-lg drop-shadow-sm">Comprehensive overview of research activities and performance metrics</p>
+          <h1 className="text-4xl font-bold text-white mb-3">Research Dashboard</h1>
+          <p className="text-gray-400 text-lg">Comprehensive overview of university research activities and performance metrics</p>
         </div>
 
-        {/* Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+          <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-semibold text-rso-dark-green">Research Activities</CardTitle>
-              <Users className="h-5 w-5 text-rso-accent" />
+              <CardTitle className="text-sm font-medium text-gray-200">Active Researchers</CardTitle>
+              <Users className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-rso-dark-green">124</div>
-              <p className="text-xs text-rso-medium-green mt-1">+12% from last month</p>
+              <div className="text-2xl font-bold text-white">234</div>
+              <p className="text-xs text-gray-400">+12% from last month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
+          <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-semibold text-rso-dark-green">Ethics Protocols</CardTitle>
-              <Shield className="h-5 w-5 text-rso-accent" />
+              <CardTitle className="text-sm font-medium text-gray-200">Publications</CardTitle>
+              <BookOpen className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-rso-dark-green">38</div>
-              <p className="text-xs text-rso-medium-green mt-1">+5% from last month</p>
+              <div className="text-2xl font-bold text-white">1,247</div>
+              <p className="text-xs text-gray-400">+8% from last quarter</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
+          <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-semibold text-rso-dark-green">Publications</CardTitle>
-              <BookOpen className="h-5 w-5 text-rso-accent" />
+              <CardTitle className="text-sm font-medium text-gray-200">Active Projects</CardTitle>
+              <FileText className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-rso-dark-green">267</div>
-              <p className="text-xs text-rso-medium-green mt-1">+18% from last month</p>
+              <div className="text-2xl font-bold text-white">89</div>
+              <p className="text-xs text-gray-400">+5 new this month</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-2xl border-0 hover:shadow-3xl transition-shadow rounded-xl">
+          <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-semibold text-rso-dark-green">Average KPI Score</CardTitle>
-              <TrendingUp className="h-5 w-5 text-rso-accent" />
+              <CardTitle className="text-sm font-medium text-gray-200">Ethics Protocols</CardTitle>
+              <Shield className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-rso-dark-green">8.4</div>
-              <p className="text-xs text-rso-medium-green mt-1">+0.3 from last quarter</p>
+              <div className="text-2xl font-bold text-white">156</div>
+              <p className="text-xs text-gray-400">23 pending review</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-200">Training Sessions</CardTitle>
+              <GraduationCap className="h-4 w-4 text-gray-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">42</div>
+              <p className="text-xs text-gray-400">687 total attendees</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-gray-200">Avg KPI Score</CardTitle>
+              <TrendingUp className="h-4 w-4 text-gray-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">8.6</div>
+              <p className="text-xs text-gray-400">+0.4 from last quarter</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Charts and Recent Updates */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="bg-white shadow-2xl border-0 rounded-xl">
-            <CardHeader className="rso-light-green">
-              <CardTitle className="text-xl text-rso-dark-green font-bold">Research Activity Trends</CardTitle>
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-xl text-white">Publication Trends</CardTitle>
             </CardHeader>
-            <CardContent className="pt-6">
+            <CardContent>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="activities" fill="#AC855E" name="Research Activities" />
-                  <Bar dataKey="publications" fill="#989F7E" name="Publications" />
-                  <Bar dataKey="protocols" fill="#6D7361" name="Ethics Protocols" />
-                </BarChart>
+                <LineChart data={publicationTrendsData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                  <XAxis dataKey="month" stroke="#9CA3AF" />
+                  <YAxis stroke="#9CA3AF" />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#1F2937', 
+                      border: '1px solid #374151',
+                      borderRadius: '8px',
+                      color: '#F9FAFB'
+                    }} 
+                  />
+                  <Line type="monotone" dataKey="publications" stroke="#3B82F6" strokeWidth={2} />
+                  <Line type="monotone" dataKey="citations" stroke="#10B981" strokeWidth={2} />
+                </LineChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-2xl border-0 rounded-xl">
-            <CardHeader className="rso-light-green">
-              <CardTitle className="text-xl text-rso-dark-green font-bold">Recent Updates</CardTitle>
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-xl text-white">Research Distribution by Department</CardTitle>
             </CardHeader>
-            <CardContent className="pt-6">
-              <div className="space-y-4">
-                {recentUpdates.map((update, index) => (
-                  <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-rso-light-green/20 hover:bg-rso-light-green/30 transition-colors">
-                    <FileText className="h-5 w-5 text-rso-accent mt-0.5 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-rso-dark-green truncate">{update.title}</p>
-                      <p className="text-xs text-rso-medium-green">{update.type} • {update.faculty}</p>
-                      <p className="text-xs text-rso-medium-green/80 mt-1">{update.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={researchDistributionData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  >
+                    {researchDistributionData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#1F2937', 
+                      border: '1px solid #374151',
+                      borderRadius: '8px',
+                      color: '#F9FAFB'
+                    }} 
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
         </div>
+
+        {/* Recent Activities */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-xl text-white">Recent Activities</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentActivities.map((activity, index) => (
+                <div key={index} className="flex items-start space-x-3 p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors">
+                  <div className="flex-shrink-0">
+                    {activity.type === 'Publication' && <BookOpen className="h-5 w-5 text-blue-400" />}
+                    {activity.type === 'Protocol' && <Shield className="h-5 w-5 text-green-400" />}
+                    {activity.type === 'Training' && <GraduationCap className="h-5 w-5 text-yellow-400" />}
+                    {activity.type === 'Project' && <FileText className="h-5 w-5 text-purple-400" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-white truncate">{activity.title}</p>
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        activity.status === 'Published' ? 'bg-green-600 text-green-100' :
+                        activity.status === 'Approved' ? 'bg-blue-600 text-blue-100' :
+                        activity.status === 'Completed' ? 'bg-purple-600 text-purple-100' :
+                        'bg-yellow-600 text-yellow-100'
+                      }`}>
+                        {activity.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {activity.type} • {activity.researcher || `${activity.attendees} attendees`} • {activity.date}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

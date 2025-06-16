@@ -1,178 +1,240 @@
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Plus, BookOpen, Search, Upload } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import Navigation from '@/components/Navigation';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, ExternalLink, Calendar, Users } from 'lucide-react';
+import MegaMenuNavigation from '@/components/MegaMenuNavigation';
 import FileUpload from '@/components/FileUpload';
 
-const publicationsData = [
-  {
-    id: 1,
-    dateOfApplication: '2025-05-15',
-    facultyName: 'Dr. Sarah Johnson',
-    titleOfPaper: 'AI-Driven Healthcare Solutions for Rural Communities',
-    department: 'Computer Science',
-    researchSubsidy: 75000,
-    status: 'Approved',
-    localInternational: 'International'
+const mockPublicationsData = [
+  { 
+    id: 1, 
+    title: "Machine Learning Applications in Healthcare Diagnostics", 
+    authors: "Dr. Sarah Johnson, Prof. Michael Chen", 
+    journal: "Journal of Medical AI", 
+    year: 2024, 
+    volume: "15(3)", 
+    pages: "234-251", 
+    citations: 23, 
+    doi: "10.1000/jmai.2024.15.3.234",
+    type: "Journal Article"
   },
-  {
-    id: 2,
-    dateOfApplication: '2025-05-10',
-    facultyName: 'Prof. Michael Chen',
-    titleOfPaper: 'Sustainable Urban Development Strategies',
-    department: 'Environmental Engineering',
-    researchSubsidy: 50000,
-    status: 'Under Review',
-    localInternational: 'Local'
+  { 
+    id: 2, 
+    title: "Cognitive Load Theory in Digital Learning Environments", 
+    authors: "Dr. Robert Wilson, Dr. Emily Davis", 
+    journal: "Educational Psychology Review", 
+    year: 2024, 
+    volume: "12(2)", 
+    pages: "89-106", 
+    citations: 45, 
+    doi: "10.1000/epr.2024.12.2.89",
+    type: "Journal Article"
   },
-  {
-    id: 3,
-    dateOfApplication: '2025-05-08',
-    facultyName: 'Dr. Emily Rodriguez',
-    titleOfPaper: 'Digital Learning Platforms in Higher Education',
-    department: 'Education',
-    researchSubsidy: 35000,
-    status: 'Approved',
-    localInternational: 'International'
+  { 
+    id: 3, 
+    title: "Synthesis of Novel Organic Compounds for Drug Development", 
+    authors: "Dr. Lisa Anderson", 
+    journal: "Organic Chemistry Letters", 
+    year: 2023, 
+    volume: "8(12)", 
+    pages: "1456-1472", 
+    citations: 67, 
+    doi: "10.1000/ocl.2023.8.12.1456",
+    type: "Journal Article"
+  },
+  { 
+    id: 4, 
+    title: "Robotics in Manufacturing: A Comprehensive Review", 
+    authors: "Dr. Emily Davis, Prof. John Thompson", 
+    journal: "IEEE Robotics Conference", 
+    year: 2024, 
+    volume: "N/A", 
+    pages: "1-8", 
+    citations: 12, 
+    doi: "10.1109/ICRA.2024.1234567",
+    type: "Conference Paper"
+  },
+  { 
+    id: 5, 
+    title: "Climate Change Impact on Cardiovascular Health", 
+    authors: "Prof. Michael Chen, Dr. Sarah Johnson", 
+    journal: "Environmental Health Perspectives", 
+    year: 2024, 
+    volume: "132(4)", 
+    pages: "047001", 
+    citations: 34, 
+    doi: "10.1289/EHP.2024.132.4.047001",
+    type: "Journal Article"
   }
 ];
 
 const Publications = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [data, setData] = useState(publicationsData);
-  const [isUploadOpen, setIsUploadOpen] = useState(false);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Approved': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Under Review': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Rejected': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
+  const handleFileUpload = (data: any[]) => {
+    console.log('Uploaded publications data:', data);
   };
-
-  const getLocalInternationalColor = (type: string) => {
-    return type === 'International' 
-      ? 'bg-blue-100 text-blue-800 border-blue-200' 
-      : 'bg-purple-100 text-purple-800 border-purple-200';
-  };
-
-  const handleFileUpload = (uploadedData: any[]) => {
-    console.log('File uploaded with data:', uploadedData);
-    setIsUploadOpen(false);
-  };
-
-  const filteredData = data.filter(publication =>
-    publication.facultyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    publication.titleOfPaper.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    publication.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    publication.status.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #C0C7AB 0%, #989F7E 100%)' }}>
-      <Navigation />
+    <div className="min-h-screen bg-zinc-900 text-white">
+      <MegaMenuNavigation />
       
       <div className="container mx-auto px-6 py-8">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 space-y-4 lg:space-y-0">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-3 drop-shadow-md">Publications and Presentations</h1>
-            <p className="text-white/90 text-lg drop-shadow-sm">Track research funding applications and publication subsidies</p>
-          </div>
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-            <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
-              <DialogTrigger asChild>
-                <Button className="rso-accent hover:rso-accent-hover text-white shadow-lg font-semibold">
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload Excel File
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle className="text-rso-dark-green">Upload Publication Records</DialogTitle>
-                </DialogHeader>
-                <FileUpload onFileUpload={handleFileUpload} />
-              </DialogContent>
-            </Dialog>
-            <Button className="rso-dark-green hover:rso-dark-green-hover text-white shadow-lg font-semibold">
-              <Plus className="h-4 w-4 mr-2" />
-              Add New Entry
-            </Button>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-3">Publications & Presentations</h1>
+          <p className="text-gray-400 text-lg">Manage and track research publications, presentations, and academic outputs</p>
         </div>
 
-        <Card className="bg-white shadow-2xl border-0 rounded-2xl overflow-hidden">
-          <CardHeader className="rso-medium-green text-white">
-            <CardTitle className="text-2xl flex items-center font-bold">
-              <BookOpen className="h-6 w-6 mr-3" />
-              Publications & Presentations Overview
-            </CardTitle>
-            <div className="relative mt-4">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-rso-dark-green h-5 w-5" />
-              <Input
-                placeholder="Search publications and presentations..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 bg-white border-rso-light-green text-rso-dark-green placeholder:text-gray-500 focus:border-rso-accent"
-              />
-            </div>
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card className="bg-gray-800 border-gray-700">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <BookOpen className="h-5 w-5 text-blue-400" />
+                <div>
+                  <p className="text-sm text-gray-400">Total Publications</p>
+                  <p className="text-2xl font-bold text-white">1,247</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gray-800 border-gray-700">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <Calendar className="h-5 w-5 text-green-400" />
+                <div>
+                  <p className="text-sm text-gray-400">This Year</p>
+                  <p className="text-2xl font-bold text-white">89</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gray-800 border-gray-700">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <ExternalLink className="h-5 w-5 text-yellow-400" />
+                <div>
+                  <p className="text-sm text-gray-400">Total Citations</p>
+                  <p className="text-2xl font-bold text-white">12,456</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gray-800 border-gray-700">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2">
+                <Users className="h-5 w-5 text-purple-400" />
+                <div>
+                  <p className="text-sm text-gray-400">Avg per Researcher</p>
+                  <p className="text-2xl font-bold text-white">5.3</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Add New Publication Form */}
+        <Card className="bg-gray-800 border-gray-700 mb-8">
+          <CardHeader>
+            <CardTitle className="text-xl text-white">Add New Publication</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="md:col-span-2">
+                <Label htmlFor="title" className="text-gray-200">Title</Label>
+                <Input id="title" placeholder="Publication title" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
+              <div>
+                <Label htmlFor="authors" className="text-gray-200">Authors</Label>
+                <Input id="authors" placeholder="Dr. John Smith, Prof. Jane Doe" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
+              <div>
+                <Label htmlFor="journal" className="text-gray-200">Journal/Conference</Label>
+                <Input id="journal" placeholder="Journal name" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
+              <div>
+                <Label htmlFor="year" className="text-gray-200">Year</Label>
+                <Input id="year" type="number" placeholder="2024" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
+              <div>
+                <Label htmlFor="doi" className="text-gray-200">DOI</Label>
+                <Input id="doi" placeholder="10.1000/journal.year.volume.page" className="bg-gray-700 border-gray-600 text-white" />
+              </div>
+            </div>
+            <Button className="bg-white text-black hover:bg-gray-200">Add Publication</Button>
+          </CardContent>
+        </Card>
+
+        {/* File Upload */}
+        <div className="mb-8">
+          <FileUpload onFileUpload={handleFileUpload} />
+        </div>
+
+        {/* Publications Table */}
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-xl text-white">Recent Publications</CardTitle>
+          </CardHeader>
+          <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="rso-light-green border-b-2 border-rso-medium-green">
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Date of Application</th>
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Name of Faculty/Research Worker</th>
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Title of Paper</th>
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Department</th>
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Research Subsidy</th>
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Status</th>
-                    <th className="text-left py-4 px-6 font-bold text-rso-dark-green">Local/International</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData.map((publication, index) => (
-                    <tr key={publication.id} className={`border-b border-gray-100 hover:bg-rso-light-green/30 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
-                      <td className="py-5 px-6 text-sm text-rso-dark-green font-medium">{publication.dateOfApplication}</td>
-                      <td className="py-5 px-6 text-sm font-semibold text-rso-dark-green">{publication.facultyName}</td>
-                      <td className="py-5 px-6 text-sm text-rso-dark-green max-w-xs">
-                        <div className="truncate" title={publication.titleOfPaper}>
-                          {publication.titleOfPaper}
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-gray-700">
+                    <TableHead className="text-gray-200">Title</TableHead>
+                    <TableHead className="text-gray-200">Authors</TableHead>
+                    <TableHead className="text-gray-200">Journal/Conference</TableHead>
+                    <TableHead className="text-gray-200">Year</TableHead>
+                    <TableHead className="text-gray-200">Type</TableHead>
+                    <TableHead className="text-gray-200">Citations</TableHead>
+                    <TableHead className="text-gray-200">DOI</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {mockPublicationsData.map((publication) => (
+                    <TableRow key={publication.id} className="border-gray-700 hover:bg-gray-700/50">
+                      <TableCell className="text-white font-medium max-w-xs">
+                        <div className="truncate" title={publication.title}>
+                          {publication.title}
                         </div>
-                      </td>
-                      <td className="py-5 px-6 text-sm text-rso-dark-green">{publication.department}</td>
-                      <td className="py-5 px-6 text-sm text-rso-dark-green font-bold">
-                        ₱{publication.researchSubsidy.toLocaleString()}
-                      </td>
-                      <td className="py-5 px-6">
-                        <Badge className={`${getStatusColor(publication.status)} border font-medium`}>
-                          {publication.status}
+                      </TableCell>
+                      <TableCell className="text-gray-300 max-w-xs">
+                        <div className="truncate" title={publication.authors}>
+                          {publication.authors}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-gray-300">
+                        <div>
+                          <div className="font-medium">{publication.journal}</div>
+                          <div className="text-xs text-gray-400">{publication.volume}, pp. {publication.pages}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-white">{publication.year}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="border-gray-600 text-gray-300">
+                          {publication.type}
                         </Badge>
-                      </td>
-                      <td className="py-5 px-6">
-                        <Badge className={`${getLocalInternationalColor(publication.localInternational)} border font-medium`}>
-                          {publication.localInternational}
-                        </Badge>
-                      </td>
-                    </tr>
+                      </TableCell>
+                      <TableCell className="text-white font-medium">{publication.citations}</TableCell>
+                      <TableCell className="text-gray-300">
+                        <a 
+                          href={`https://doi.org/${publication.doi}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-1 hover:text-white transition-colors"
+                        >
+                          <span className="text-xs">{publication.doi}</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                  {filteredData.length === 0 && (
-                    <tr>
-                      <td colSpan={7} className="py-12 text-center text-rso-medium-green">
-                        <BookOpen className="h-12 w-12 mx-auto mb-4 text-rso-medium-green" />
-                        <p className="text-lg font-medium">No records found</p>
-                        <p className="text-sm">Try adjusting your search criteria</p>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
           </CardContent>
         </Card>
