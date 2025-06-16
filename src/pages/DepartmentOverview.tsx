@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, Users } from 'lucide-react';
+import { Building } from 'lucide-react';
 import MegaMenuNavigation from '@/components/MegaMenuNavigation';
 
 const DepartmentOverview = () => {

@@ -93,14 +93,14 @@ const MegaMenuNavigation = () => {
       <div className="container mx-auto px-6">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <img 
                 src="/lovable-uploads/8165a96b-bd3e-4e12-af41-750d2fc8fefc.png" 
                 alt="Research Service Office Logo" 
                 className="h-10 w-10 object-contain flex-shrink-0"
               />
               <div className="text-xl font-bold text-white whitespace-nowrap">UC RSO</div>
-            </div>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden lg:flex space-x-1">
