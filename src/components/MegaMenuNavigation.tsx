@@ -45,8 +45,7 @@ const MegaMenuNavigation = () => {
       hasDropdown: true,
       items: [
         { label: 'Data Collection Tools', path: '/data-collection' },
-        { label: 'Ethics Reviewed Protocols', path: '/ethics-protocols' },
-        { label: 'Research Projects', path: '/research-projects' }
+        { label: 'Ethics Reviewed Protocols', path: '/ethics-protocols' }
       ]
     },
     {
@@ -55,8 +54,7 @@ const MegaMenuNavigation = () => {
       icon: GraduationCap,
       hasDropdown: true,
       items: [
-        { label: 'Training & Seminars', path: '/training-seminars' },
-        { label: 'Attendance Records', path: '/attendance-records' }
+        { label: 'Training & Seminars', path: '/training-seminars' }
       ]
     },
     {
@@ -65,19 +63,7 @@ const MegaMenuNavigation = () => {
       icon: TrendingUp,
       hasDropdown: true,
       items: [
-        { label: 'KPI Records', path: '/kpi-records' },
-        { label: 'Department Overview', path: '/department-overview' },
-        { label: 'Query & Reports', path: '/query-reports' }
-      ]
-    },
-    {
-      id: 'admin',
-      label: 'Admin Tools',
-      icon: Settings,
-      hasDropdown: true,
-      items: [
-        { label: 'User Management', path: '/user-management' },
-        { label: 'Role Settings', path: '/role-settings' }
+        { label: 'Department Overview', path: '/department-overview' }
       ]
     }
   ];
@@ -102,7 +88,7 @@ const MegaMenuNavigation = () => {
           <div className="flex items-center space-x-6">
             <Link to="/" className="flex items-center space-x-2">
               <img 
-                src="/lovable-uploads/8165a96b-bd3e-4e12-af41-750d2fc8fefc.png" 
+                src="/lovable-uploads/RSOLOGO.png" 
                 alt="Research Service Office Logo" 
                 className="h-10 w-10 object-contain flex-shrink-0"
               />

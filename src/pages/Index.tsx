@@ -1,34 +1,268 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { FileText, Users, BookOpen, TrendingUp, Shield, GraduationCap } from 'lucide-react';
 import MegaMenuNavigation from '@/components/MegaMenuNavigation';
+import React, { useEffect, useState } from 'react';
+import { db } from '@/lib/firebase';
+import { ref as dbRef, onValue } from 'firebase/database';
 
-const publicationTrendsData = [
-  { month: 'Jan', publications: 12, citations: 45 },
-  { month: 'Feb', publications: 15, citations: 52 },
-  { month: 'Mar', publications: 18, citations: 63 },
-  { month: 'Apr', publications: 14, citations: 48 },
-  { month: 'May', publications: 20, citations: 71 },
-  { month: 'Jun', publications: 16, citations: 55 }
-];
+interface Researcher {
+  id: string;
+  name: string;
+  department: string;
+  position: string;
+  email: string;
+  phone: string;
+  specialization: string;
+  imageUrl?: string;
+  publications?: { [key: string]: any };
+}
 
-const researchDistributionData = [
-  { name: 'Computer Science', value: 35, color: '#8884d8' },
-  { name: 'Medicine', value: 25, color: '#82ca9d' },
-  { name: 'Engineering', value: 20, color: '#ffc658' },
-  { name: 'Social Sciences', value: 12, color: '#ff7300' },
-  { name: 'Others', value: 8, color: '#00ff00' }
-];
+interface Publication {
+  date: string;
+  title: string;
+  department: string;
+  status: string;
+  type: string;
+  link: string;
+  researcherName?: string;
+  researcherId?: string;
+}
 
-const recentActivities = [
-  { type: 'Publication', title: 'AI Applications in Healthcare Research', researcher: 'Dr. Sarah Johnson', date: '2025-06-10', status: 'Published' },
-  { type: 'Protocol', title: 'Student Learning Behavior Study', researcher: 'Dr. Michael Chen', date: '2025-06-08', status: 'Approved' },
-  { type: 'Training', title: 'Research Ethics Workshop', attendees: 45, date: '2025-06-05', status: 'Completed' },
-  { type: 'Project', title: 'Machine Learning in Education', researcher: 'Prof. Emily Davis', date: '2025-06-03', status: 'In Progress' }
-];
+interface Protocol {
+  id: string;
+  listOfTitle: string;
+  department: string;
+  dateForwarded: string;
+  status: string;
+  actionTaken: string;
+}
+
+interface TrainingActivity {
+  id: string;
+  dateOfActivity: string;
+  nameOfActivity: string;
+  venue: string;
+  facilitatorsParticipants: string;
+  numberOfParticipants: number;
+  activityReport: string;
+}
+
+interface DashboardStats {
+  totalResearchers: number;
+  totalPublications: number;
+  totalProtocols: number;
+  totalTrainingSessions: number;
+  publicationsThisYear: number;
+  internationalPublications: number;
+  localPublications: number;
+  pendingProtocols: number;
+  approvedProtocols: number;
+  totalTrainingParticipants: number;
+}
 
 const Index = () => {
+  const [researchers, setResearchers] = useState<Researcher[]>([]);
+  const [allPublications, setAllPublications] = useState<Publication[]>([]);
+  const [protocols, setProtocols] = useState<Protocol[]>([]);
+  const [trainingActivities, setTrainingActivities] = useState<TrainingActivity[]>([]);
+  const [stats, setStats] = useState<DashboardStats>({
+    totalResearchers: 0,
+    totalPublications: 0,
+    totalProtocols: 0,
+    totalTrainingSessions: 0,
+    publicationsThisYear: 0,
+    internationalPublications: 0,
+    localPublications: 0,
+    pendingProtocols: 0,
+    approvedProtocols: 0,
+    totalTrainingParticipants: 0,
+  });
+
+  // Fetch all data from Firebase
+  useEffect(() => {
+    // Fetch researchers
+    const researchersRef = dbRef(db, 'researchers');
+    const unsubResearchers = onValue(researchersRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const researchersArray = Object.entries(data).map(([id, val]: any) => ({ id, ...val }));
+        setResearchers(researchersArray);
+        
+        // Extract all publications from researchers
+        const publications: Publication[] = [];
+        researchersArray.forEach((researcher: Researcher) => {
+          if (researcher.publications) {
+            Object.values(researcher.publications).forEach((pub: any) => {
+              publications.push({
+                ...pub,
+                researcherName: researcher.name,
+                researcherId: researcher.id,
+              });
+            });
+          }
+        });
+        setAllPublications(publications);
+      } else {
+        setResearchers([]);
+        setAllPublications([]);
+      }
+    });
+
+    // Fetch protocols
+    const protocolsRef = dbRef(db, 'ethicsProtocols');
+    const unsubProtocols = onValue(protocolsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const protocolsArray = Object.entries(data).map(([id, val]: any) => ({ id, ...val }));
+        setProtocols(protocolsArray);
+      } else {
+        setProtocols([]);
+      }
+    });
+
+    // Fetch training activities
+    const trainingRef = dbRef(db, 'trainingSeminars');
+    const unsubTraining = onValue(trainingRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const trainingArray = Object.entries(data).map(([id, val]: any) => ({ id, ...val }));
+        setTrainingActivities(trainingArray);
+      } else {
+        setTrainingActivities([]);
+      }
+    });
+
+    return () => {
+      unsubResearchers();
+      unsubProtocols();
+      unsubTraining();
+    };
+  }, []);
+
+  // Compute statistics whenever data changes
+  useEffect(() => {
+    const currentYear = new Date().getFullYear();
+    
+    const newStats: DashboardStats = {
+      totalResearchers: researchers.length,
+      totalPublications: allPublications.length,
+      totalProtocols: protocols.length,
+      totalTrainingSessions: trainingActivities.length,
+      publicationsThisYear: allPublications.filter(pub => 
+        pub.date && new Date(pub.date).getFullYear() === currentYear
+      ).length,
+      internationalPublications: allPublications.filter(pub => pub.type === 'International').length,
+      localPublications: allPublications.filter(pub => pub.type === 'Local').length,
+      pendingProtocols: protocols.filter(protocol => protocol.status === 'Under Review').length,
+      approvedProtocols: protocols.filter(protocol => protocol.status === 'Approved').length,
+      totalTrainingParticipants: trainingActivities.reduce((sum, activity) => sum + (activity.numberOfParticipants || 0), 0),
+    };
+    
+    setStats(newStats);
+  }, [researchers, allPublications, protocols, trainingActivities]);
+
+  // Generate publication trends data (last 6 months)
+  const generatePublicationTrends = () => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const trends = [];
+    const currentDate = new Date();
+    
+    for (let i = 5; i >= 0; i--) {
+      const monthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+      const monthName = months[monthDate.getMonth()];
+      const monthYear = monthDate.getFullYear();
+      
+      const monthPublications = allPublications.filter(pub => {
+        if (!pub.date) return false;
+        const pubDate = new Date(pub.date);
+        return pubDate.getMonth() === monthDate.getMonth() && pubDate.getFullYear() === monthYear;
+      });
+      
+      trends.push({
+        month: monthName,
+        publications: monthPublications.length,
+        citations: Math.floor(monthPublications.length * 3.5), // Mock citations based on publications
+      });
+    }
+    
+    return trends;
+  };
+
+  // Generate research distribution by department
+  const generateResearchDistribution = () => {
+    const departmentCounts: { [key: string]: number } = {};
+    
+    allPublications.forEach(pub => {
+      if (pub.department) {
+        departmentCounts[pub.department] = (departmentCounts[pub.department] || 0) + 1;
+      }
+    });
+    
+    const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00', '#ff0000', '#0000ff'];
+    return Object.entries(departmentCounts).map(([name, value], index) => ({
+      name,
+      value,
+      color: colors[index % colors.length],
+    }));
+  };
+
+  // Generate recent activities
+  const generateRecentActivities = () => {
+    const activities = [];
+    
+    // Add recent publications
+    const recentPublications = allPublications
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 2);
+    
+    recentPublications.forEach(pub => {
+      activities.push({
+        type: 'Publication',
+        title: pub.title,
+        researcher: pub.researcherName || 'Unknown',
+        date: pub.date,
+        status: pub.status || 'Published',
+      });
+    });
+    
+    // Add recent protocols
+    const recentProtocols = protocols
+      .sort((a, b) => new Date(b.dateForwarded).getTime() - new Date(a.dateForwarded).getTime())
+      .slice(0, 1);
+    
+    recentProtocols.forEach(protocol => {
+      activities.push({
+        type: 'Protocol',
+        title: protocol.listOfTitle,
+        researcher: 'Research Team',
+        date: protocol.dateForwarded,
+        status: protocol.status,
+      });
+    });
+    
+    // Add recent training
+    const recentTraining = trainingActivities
+      .sort((a, b) => new Date(b.dateOfActivity).getTime() - new Date(a.dateOfActivity).getTime())
+      .slice(0, 1);
+    
+    recentTraining.forEach(training => {
+      activities.push({
+        type: 'Training',
+        title: training.nameOfActivity,
+        attendees: training.numberOfParticipants,
+        date: training.dateOfActivity,
+        status: 'Completed',
+      });
+    });
+    
+    return activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 4);
+  };
+
+  const publicationTrendsData = generatePublicationTrends();
+  const researchDistributionData = generateResearchDistribution();
+  const recentActivities = generateRecentActivities();
+
   return (
     <div className="min-h-screen bg-zinc-900 text-white">
       <MegaMenuNavigation />
@@ -40,15 +274,15 @@ const Index = () => {
         </div>
 
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-200">Active Researchers</CardTitle>
               <Users className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">234</div>
-              <p className="text-xs text-gray-400">+12% from last month</p>
+              <div className="text-2xl font-bold text-white">{stats.totalResearchers}</div>
+              <p className="text-xs text-gray-400">Currently registered</p>
             </CardContent>
           </Card>
 
@@ -58,19 +292,8 @@ const Index = () => {
               <BookOpen className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">1,247</div>
-              <p className="text-xs text-gray-400">+8% from last quarter</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-200">Active Projects</CardTitle>
-              <FileText className="h-4 w-4 text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">89</div>
-              <p className="text-xs text-gray-400">+5 new this month</p>
+              <div className="text-2xl font-bold text-white">{stats.totalPublications}</div>
+              <p className="text-xs text-gray-400">{stats.publicationsThisYear} this year</p>
             </CardContent>
           </Card>
 
@@ -80,8 +303,8 @@ const Index = () => {
               <Shield className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">156</div>
-              <p className="text-xs text-gray-400">23 pending review</p>
+              <div className="text-2xl font-bold text-white">{stats.totalProtocols}</div>
+              <p className="text-xs text-gray-400">{stats.pendingProtocols} pending review</p>
             </CardContent>
           </Card>
 
@@ -91,19 +314,8 @@ const Index = () => {
               <GraduationCap className="h-4 w-4 text-gray-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">42</div>
-              <p className="text-xs text-gray-400">687 total attendees</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-200">Avg KPI Score</CardTitle>
-              <TrendingUp className="h-4 w-4 text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">8.6</div>
-              <p className="text-xs text-gray-400">+0.4 from last quarter</p>
+              <div className="text-2xl font-bold text-white">{stats.totalTrainingSessions}</div>
+              <p className="text-xs text-gray-400">{stats.totalTrainingParticipants} total attendees</p>
             </CardContent>
           </Card>
         </div>
@@ -161,8 +373,10 @@ const Index = () => {
                       backgroundColor: '#1F2937', 
                       border: '1px solid #374151',
                       borderRadius: '8px',
-                      color: '#F9FAFB'
+                      color: '#FFF',
                     }} 
+                    itemStyle={{ color: '#FFF' }}
+                    formatter={(value, name) => [value, name]}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -198,11 +412,19 @@ const Index = () => {
                       </span>
                     </div>
                     <p className="text-xs text-gray-400 mt-1">
-                      {activity.type} • {activity.researcher || `${activity.attendees} attendees`} • {activity.date}
+                      {activity.type === 'Training' ? 
+                        `${activity.attendees} attendees • ${activity.date}` :
+                        `${activity.researcher} • ${activity.date}`
+                      }
                     </p>
                   </div>
                 </div>
               ))}
+              {recentActivities.length === 0 && (
+                <div className="text-center text-gray-400 py-8">
+                  No recent activities found.
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

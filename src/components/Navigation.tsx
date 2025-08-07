@@ -35,7 +35,7 @@ const Navigation = () => {
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-2">
               <img 
-                src="/lovable-uploads/8165a96b-bd3e-4e12-af41-750d2fc8fefc.png" 
+                src="/lovable-uploads/RSOLOGO.png" 
                 alt="Research Service Office Logo" 
                 className="h-10 w-10 object-contain flex-shrink-0"
               />
